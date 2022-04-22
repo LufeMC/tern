@@ -1,0 +1,16 @@
+/front/node_modules/
+/front/.expo/
+/front/dist/
+/front/npm-debug.*
+/front/*.jks
+/front/*.p8
+/front/*.p12
+/front/*.key
+/front/*.mobileprovision
+/front/*.orig.*
+/front/web-build/
+/back/node_modules/
+/front2
+
+# macOS
+/front/.DS_Store
