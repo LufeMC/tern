@@ -4,11 +4,13 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import TextInputView from '../../components/TextInput';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FancyAlert } from 'react-native-expo-fancy-alerts';
+import auth from '../../integrations/auth'
 
-const Signup = ({navigation}) => {
+const Signup = ({route, navigation}) => {
     const [name, setName] = useState('')
     const [isAlertShown, setIsAlertShown] = useState(false)
     const [message, setMessage] = useState('')
+    const { email, password } = route.params;
 
     const continueSignup = () => {
         if (!validate()) {
@@ -17,7 +19,9 @@ const Signup = ({navigation}) => {
             return
         }
 
-        navigation.navigate('AddItinerarySignup')
+        auth.register({email, password, name}, (response) => {
+            navigation.navigate('AddItinerarySignup', {userId: response._id, userName: response.name})
+        })
     }
 
     const validate = () => {

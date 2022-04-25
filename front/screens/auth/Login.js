@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import TextInputView from '../../components/TextInput';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FancyAlert } from 'react-native-expo-fancy-alerts';
+import auth from '../../integrations/auth'
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState('')
@@ -18,7 +19,14 @@ const Login = ({ navigation }) => {
             return
         }
 
-        navigation.navigate('Signup')
+        auth.login({email, password}, (response) => {
+            console.log(response)
+            if (!response || !response.length) {
+                navigation.navigate('Signup', {email, password})
+            } else {
+                navigation.navigate('Home', {screen: 'Main', params: {id: response[0]._id}})
+            }
+        })
     }
 
     const validate = () => {

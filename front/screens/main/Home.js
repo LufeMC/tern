@@ -10,10 +10,11 @@ import HomeItineraries from './pages/HomeItineraries';
 
 const App = createNativeStackNavigator();
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
     const [user, setEmail] = useState('Luis')
     const [isAlertShown, setIsAlertShown] = useState(false)
     const [message, setMessage] = useState('')
+    const {id} = route.params.params
 
     return (
         <LinearGradient colors={['#fffae4', '#f2edd8']} style={styles.container}>
@@ -46,11 +47,11 @@ const Home = ({ navigation }) => {
                 </App.Navigator>
             </View>
             <View style={styles.footer}>
-                <Pressable onPress={() => navigation.navigate('Home', { screen: 'Main' })}>
+                <Pressable onPress={() => navigation.navigate('Home', { screen: 'Main', params: {id} })}>
                     <Text style={{ fontSize: 15, fontFamily: 'Poppins_600SemiBold', color: 'black', textAlign: 'center' }}>Home</Text>
                 </Pressable>
                 <Text style={{ fontSize: 15, fontFamily: 'Poppins_900Black', color: 'black', textAlign: 'center' }}>|</Text>
-                <Pressable  onPress={() => navigation.navigate('Home', { screen: 'Itineraries' })}>
+                <Pressable  onPress={() => navigation.navigate('Home', { screen: 'Itineraries', params: {id} })}>
                     <Text style={{ fontSize: 15, fontFamily: 'Poppins_600SemiBold', color: 'black', textAlign: 'center' }}>Itineraries</Text>
                 </Pressable>
             </View>

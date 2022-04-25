@@ -6,28 +6,33 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FancyAlert } from 'react-native-expo-fancy-alerts';
 import { Pressable } from 'react-native';
 import { FlatList } from 'react-native';
+import itinerariesService from '../../integrations/itineraries'
 
-const AddItinerarySignup = ({navigation}) => {
-    const [itineraryName, setItiineraryName] = useState('')
-    const [itineraryImage, setItiineraryImage] = useState('')
+const AddItinerarySignup = ({route, navigation}) => {
     const [newActivityName, setNewActivityName] = useState('')
     const [isAlertShown, setIsAlertShown] = useState(false)
-    const [message, setMessage] = useState('')
     const [activities, setActivities] = useState([])
-    const { itemsHTML, setItemsHTML } = useState(null)
+    const [itineraryName, setItiineraryName] = useState('')
+    const {userId, userName} = route.params
 
     const finishSignup = () => {
         if (activities && activities.length) {
-            console.log(activities)
-            navigation.navigate('Home')
+            itinerariesService.save({
+                name: itineraryName,
+                author: userName,
+                events: activities.map(activity => {
+                    return {name: activity}
+                })
+            }, (response) => {
+                skip()
+            })
         } else {
             skip()
         }
     }
 
     const skip = () => {
-        console.log('skip')
-        navigation.navigate('Home')
+        navigation.navigate('Home', {screen: 'Main', params: {id: userId}})
     }
 
     const addActivity = () => {

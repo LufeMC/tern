@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react"
 import { FlatList, View } from "react-native"
 import Button from "../../../components/Button"
+import itinerariesService from '../../../integrations/itineraries'
 
-const HomeItineraries = () => {
+const HomeItineraries = ({route}) => {
     const [itineraries, setItineraries] = useState([
-        { name: 'Brazil'},
-        { name: 'Argentina'},
-        { name: 'Paris'},
     ])
+    const {id} = route.params
+
+    useEffect(() => {
+        console.log(id)
+        itinerariesService.list(id, (response) => {
+            console.log(response)
+            setItineraries(response)
+        })
+    }, [id])
 
     return (
         <FlatList
